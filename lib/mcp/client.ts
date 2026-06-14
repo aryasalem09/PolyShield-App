@@ -38,11 +38,37 @@ function ipIsPrivate(ip: string): boolean {
     );
   }
   const lower = ip.toLowerCase().replace(/^\[|\]$/g, "");
-  if (lower === "::1" || lower === "::" ) return true;
+  if (lower === "::1" || lower === "::") return true;
   if (lower.startsWith("fe80") || lower.startsWith("fc") || lower.startsWith("fd")) return true;
-  // IPv4-mapped IPv6 (::ffff:a.b.c.d)
-  const mapped = lower.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/);
-  if (mapped) return ipIsPrivate(mapped[1]);
+
+  if (v !== 6) return false;
+
+  let segments = lower.split(":");
+
+  // Handle mapped IPv4 at the end (e.g. ::ffff:127.0.0.1)
+  if (segments[segments.length - 1].includes(".")) {
+    const p = (segments.pop() as string).split(".").map(Number);
+    segments.push(((p[0] << 8) | p[1]).toString(16), ((p[2] << 8) | p[3]).toString(16));
+  }
+
+  // Handle zero compression (::)
+  const emptyIdx = segments.indexOf("");
+  if (emptyIdx !== -1) {
+    const before = segments.slice(0, emptyIdx).filter(Boolean);
+    const after = segments.slice(emptyIdx + 1).filter(Boolean);
+    segments = [...before, ...Array(8 - before.length - after.length).fill("0"), ...after];
+  }
+
+  while (segments.length < 8) segments.unshift("0");
+  const n = segments.map((s) => parseInt(s || "0", 16));
+
+  // Check loopback (0:0:0:0:0:0:0:1) and unspecified (0:0:0:0:0:0:0:0)
+  // Check IPv4-mapped IPv6 (0:0:0:0:0:ffff:x:x)
+  if (n[0] === 0 && n[1] === 0 && n[2] === 0 && n[3] === 0 && n[4] === 0) {
+    if (n[5] === 0 && n[6] === 0 && (n[7] === 0 || n[7] === 1)) return true;
+    if (n[5] === 0xffff) return ipIsPrivate(`${n[6] >> 8}.${n[6] & 255}.${n[7] >> 8}.${n[7] & 255}`);
+  }
+
   return false;
 }
 
