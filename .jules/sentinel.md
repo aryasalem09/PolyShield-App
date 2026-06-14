@@ -1,0 +1,4 @@
+## 2025-06-15 - SSRF via IPv6 Bypass
+**Vulnerability:** Found a Server-Side Request Forgery (SSRF) bypass in the MCP client proxy. The `ipIsPrivate` function blocked traditional IPv4 addresses like `127.0.0.1` and simple IPv6 forms like `::1`, but Node.js's `isIP()` considers various obfuscated zero-compressed and IPv4-mapped IPv6 strings (like `0:0:0:0:0:0:0:1` and `::ffff:7f00:1` -> `127.0.0.1`) to be valid IPs. These bypassed the function logic and allowed routing proxy traffic to internal, loopback, or cloud-metadata IPs.
+**Learning:** Checking for loopback and private IPs requires robust string parsing and normalization of IPv6 segments, not just string matching.
+**Prevention:** Fully expand the IPv6 address by handling IPv4 mapped endpoints and zero-compressions, padding into 8 full segments and parsing into numerical values to consistently check mapped loopbacks and valid ranges.
