@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { Check, KeyRound, Loader2, ShieldCheck, Slack, Sparkles } from "lucide-react";
+import DOMPurify from "dompurify";
 import { createClient } from "@/lib/supabase/client";
 import {
   openBillingPortalAction,
@@ -220,7 +221,8 @@ export function MfaPanel() {
           <div
             className="mt-3 inline-block rounded-lg bg-white p-2"
             // qr_code is an SVG string returned by Supabase
-            dangerouslySetInnerHTML={{ __html: enroll.qr }}
+            // Security: Sanitize external SVG to prevent XSS before injecting into DOM
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(enroll?.qr || "") }}
           />
           <div className="mt-3 flex gap-2">
             <input
