@@ -889,8 +889,8 @@ async function handleMessage(
       const e = err as { code: number; message: string };
       return rpcError(id, e.code, e.message);
     }
-    const message = err instanceof Error ? err.message : "Internal gateway error";
-    return rpcError(id, -32603, message);
+    // Prevent leaking stack traces or internal errors to the agent
+    return rpcError(id, -32603, "Internal gateway error");
   }
 }
 
