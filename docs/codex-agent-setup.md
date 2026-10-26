@@ -1,59 +1,15 @@
-# Codex Agent Setup
+# Upbranch agent setup
 
-## Classification
+Assessed 2026-10-26 against baseline `3f3a7a0b624dcabd594684b9d0cee5acbfa802bb`.
 
-PolyShield-App is a fullstack Next.js, TypeScript, Supabase, and agentic-AI security application.
+This is an existing Next.js 15 / React 19 / TypeScript / Tailwind / Supabase app. The new public learning surface uses authored content, pure simulations and browser-local progress. Existing gateway, dashboard, database migrations and auth remain separate.
 
-## Agent Settings
+Six implementation/QA lanes use isolated Git worktrees: core with curriculum, frontend, labs, discovery, radar, QA. Read-only discovery precedes implementation; independent review and browser testing precede release. Concurrency is capped at seven including the parent; depth one is an assignment policy. The project config uses `agents.max_concurrent_threads_per_session`; unsupported depth/runtime keys were removed.
 
-- `max_threads = 10`
-- `max_depth = 1`
-- `job_max_runtime_seconds = 2400`
+Requested routing: discovery Luna Medium; core, frontend, discovery and radar Terra Medium; runtime and QA Terra High; final review Sol High. Agent runtime responses do not expose verified effective model/effort, so routing is unverified. No model-savings claims are made.
 
-Ten threads are useful for independent frontend, gateway, policy, migration, tests, docs, security, and release work. Depth stays at `1` because security-sensitive changes need top-level coordination and bounded ownership.
+Setup backups are retained outside the deliverable in `work/bootstrap-backup`. No credentials or environment values belong in source or test artifacts. Required commands and completion criteria are in `AGENTS.md`. Deploy a tested isolated preview before any production promotion. Future Worktree handoff, sandboxed IDE, ingestion and account persistence require separate implementation and review.
 
-## Custom Agents
+Retained project roles are `.codex/agents/gateway_security_reviewer.toml` and `.codex/agents/db_migration_reviewer.toml`. Use them for gateway policy/SSRF/vault reviews and migration/RLS/grant reviews respectively. The existing custom agents and their instructions are unchanged. Existing global roles remain appropriate for repository discovery, implementation, testing, documentation and release review.
 
-- Global agents: `repo_scout`, `architect`, `implementer`, `tester`, `reviewer`, `security_auditor`, `docs_writer`, `release_manager`.
-- Project agents: `gateway_security_reviewer`, `db_migration_reviewer`.
-
-## Recommended Prompt Pattern
-
-```text
-Use parallel subagents.
-Goal: [PolyShield-App task]
-Scout app/gateway/migration boundaries first.
-Keep security-sensitive work mocked or local unless explicitly approved.
-Run type/security checks relevant to touched modules and review migrations before finalizing.
-```
-
-## CSV Fanout Candidates
-
-- Supabase migration-by-migration review.
-- Gateway module security audit.
-- Policy/security test inventory.
-- Component-level UI checks.
-
-## Tasks That Should Not Use Many Agents
-
-- Small copy edits.
-- One component style adjustment.
-- Single test fixture updates.
-
-## Known Risks
-
-- Gateway policy bugs can expose tool-call, SSRF, or audit integrity issues.
-- Supabase migrations require RLS/grant/RPC review.
-- Real service credentials and production infrastructure must not be used without explicit approval.
-
-## Commands Discovered
-
-- `npm run dev`
-- `npm run build`
-- `npm run lint`
-- `npm run typecheck`
-- `npm run test:security`
-
-## Validation Performed
-
-This setup pass inspected existing instructions, package scripts, repo structure, git status, and Codex docs. It did not run builds or tests.
+Keep batch fanout for independent migration, gateway, test-inventory or component checks; a single copy/style change does not justify a team. Gateway policy regressions, Supabase RLS/grant changes and real service credential use remain the principal inherited risks. A deployment should use reviewed code and the intended configured environment; local test values do not establish that real account sign-in works.

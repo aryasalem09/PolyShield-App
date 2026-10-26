@@ -1,0 +1,3 @@
+# Studio roadmap
+
+R0 is a read-only sample, with no editor or execution. For R1 evaluate Sandpack (Apache-2.0) and confirm whether the chosen template uses Nodebox under its separate commercial terms; Monaco is an MIT-licensed editor only. Load an approved editor dynamically and use a restricted, separately isolated preview with reviewed sample projects after security review. No arbitrary installs, secrets or MCP access. Server execution requires separately reviewed tenant isolation, quotas, egress restrictions and cleanup. A future Worktree bridge requires explicit user consent and license review; its Solid UI is not a drop-in React component.

@@ -151,3 +151,15 @@ Oververbosity:low
 - Commands discovered: `npm run dev`, `npm run build`, `npm run lint`, `npm run typecheck`, and `npm run test:security`.
 - Recommended roles: `repo_scout`, `architect`, `gateway_security_reviewer`, `db_migration_reviewer`, `implementer`, `tester`, `reviewer`, `security_auditor`, and `release_manager`.
 - Never use real production Supabase, Slack, billing, or provider credentials without explicit approval.
+
+## Upbranch public learning surface (2026-10-26)
+
+- Upbranch adds anonymous authored learning to the existing PolyShield Next.js 15 / React 19 application. Preserve the developer dashboard, authentication, gateway, billing, and migrations.
+- Public modules: `lib/upbranch/` (contracts, catalog, validated browser progress, deterministic runtime), `components/upbranch/`, and routes `/learn`, `/labs`, `/studio`, `/paths`, `/discover`, `/portfolio`, `/radar`.
+- Ownership: core/curriculum, frontend/shared shell, labs/runtime, discovery, radar, and QA are independent lanes. Use isolated worktrees for writers; only the integration lead changes dependencies and cross-owner integration.
+- Install: `npm ci`. Run: `npm run dev`. Required release checks: `npm run typecheck`, `npm run test:security`, `npm run test:upbranch`, `npm run build`, `git diff --check`, and browser mission completion/reset plus mobile navigation. Existing `npm run lint` uses legacy `next lint`; report incompatibility rather than claiming it passed.
+- All R0 lessons and project briefs are authored fixtures; Radar is a dated curated edition. Mark future features explicitly. Do not claim live model execution, automatic ingestion, validated learning outcomes, or paid opportunities.
+- Store anonymous progress under `upbranch:progress:v1`, bounded and schema-validated. No personal information, credentials, production database writes, arbitrary execution, or learner-supplied URL requests.
+- Reuse installed React/Tailwind/Lucide; preserve third-party notices. No browser IDE/runtime is shipped in R0.
+- Concurrency ceiling is seven, depth one by policy; no grandchildren. Route bounded implementation to Terra Medium, difficult runtime/QA to Terra High, and independent final review to Sol High. Effective routing must be reported as unverified unless runtime metadata proves it.
+- Done means one branching mission completes anonymously, three path previews, at least six project briefs, sourced Radar, unchanged gateway/auth boundaries, and executed release checks. A demo script does not prove a video or contest submission exists.

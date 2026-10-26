@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "test:upbranch": "node --experimental-strip-types --test tests/upbranch/*.test.mjs",
     "test:security": "node --experimental-strip-types scripts/policy-test.mjs && node --experimental-strip-types scripts/shield-test.mjs && node --experimental-strip-types scripts/ssrf-test.mjs && node scripts/security-migration-test.mjs"
   },
   "dependencies": {

@@ -1,0 +1,9 @@
+import Link from 'next/link';
+import { SiteShell } from '@/components/upbranch/ui/site-shell';
+import { pathways } from '@/lib/upbranch/pathways/catalog';
+import { getMission } from '@/lib/upbranch/catalog';
+import { MissionStatus } from '@/components/upbranch/discover/mission-status';
+
+export default function PathsPage() {
+  return <SiteShell><main id="main-content" tabIndex={-1} className="mx-auto max-w-6xl px-6 py-16 text-[#20251f]"><p className="text-sm font-bold uppercase tracking-widest">Your learning map</p><h1 className="mt-3 text-4xl font-bold md:text-6xl">Choose a direction.</h1><p className="mt-5 max-w-2xl text-lg">These preview maps connect short missions to projects. Start anywhere and follow your curiosity.</p><div className="mt-10 grid gap-5 md:grid-cols-3">{pathways.map(path => <article key={path.id} className="rounded-3xl border border-[#20251f]/20 bg-white p-7"><span className="rounded-full bg-[#c8ee91] px-3 py-1 text-xs font-bold">PATH PREVIEW</span><h2 className="mt-6 text-2xl font-bold">{path.title}</h2><p className="mt-3">{path.subtitle}</p><p className="mt-6 text-sm font-bold">MISSIONS · BEGINNER FRIENDLY</p><ol className="mt-3 space-y-3">{path.missionIds.map(id => {const m=getMission(id); return <li key={id}>{m?.published ? <Link className="underline underline-offset-4" href={`/learn/${id}`}>{m.title} ↗<MissionStatus id={id} /></Link> : <span>{m?.title ?? id.replaceAll('-', ' ')} <span className="text-sm text-gray-500">· coming soon</span></span>}</li>})}</ol><p className="mt-6 text-sm font-bold">TRY A PROJECT</p><Link className="mt-2 block underline underline-offset-4" href={`/discover/${path.capstoneBountyIds[0]}`}>Explore a capstone ↗</Link><Link className="mt-5 block text-sm underline" href="/learn">Browse available missions</Link></article>)}</div></main></SiteShell>
+}

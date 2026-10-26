@@ -1,0 +1,3 @@
+import { SiteShell } from '@/components/upbranch/ui/site-shell';
+import { BountyBoard } from '@/components/upbranch/discover/bounty-board';
+export default function DiscoverPage(){return <SiteShell><main id="main-content" tabIndex={-1} className="mx-auto max-w-6xl px-6 py-16 text-[#20251f]"><p className="text-sm font-bold uppercase tracking-widest">Make something meaningful</p><h1 className="mt-3 text-4xl font-bold md:text-6xl">Find your next project.</h1><p className="mt-5 max-w-2xl text-lg">Educational project ideas—not paid bounties. Each brief gives you a problem, resources and a way to check your work.</p><BountyBoard /></main></SiteShell>}
